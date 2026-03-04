@@ -3,14 +3,28 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
+const requiredVars = [
+  'VITE_FIREBASE_API_KEY',
+  'VITE_FIREBASE_AUTH_DOMAIN',
+  'VITE_FIREBASE_PROJECT_ID',
+  'VITE_FIREBASE_STORAGE_BUCKET',
+  'VITE_FIREBASE_MESSAGING_SENDER_ID',
+  'VITE_FIREBASE_APP_ID',
+];
+
+const missingVars = requiredVars.filter((name) => !import.meta.env[name]);
+if (missingVars.length > 0) {
+  throw new Error(`Missing Firebase environment variables: ${missingVars.join(', ')}`);
+}
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyABazc2-zAJ0vV0WornddTiu4KHNXrdLmI',
-  authDomain: 'metric-lab.firebaseapp.com',
-  projectId: 'metric-lab',
-  storageBucket: 'metric-lab.firebasestorage.app',
-  messagingSenderId: '664213844113',
-  appId: '1:664213844113:web:64ddc7d2ea1216cbe54f30',
-  measurementId: 'G-CRZGVF8VGF',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
